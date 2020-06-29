@@ -1,0 +1,87 @@
+神经网络：
+	损失函数：预测值y与实际值t的差距，可以定量判断w，b的优劣，损失函数的输出最小时，参数w，b会出现最优值
+		       常用的损失函数有很多，比如：均方误差MSE
+	损失函数的梯度：函数对各个参数求偏导后的向量，函数梯度下降的方向就是损失函数减小的方向
+	梯度下降算法：沿着损失函数梯度下降的方向，寻找函数的最小值，得到参数的最优解
+	学习率：一个超参数，学习率过小，会导致收敛过程十分缓慢，过大会导致梯度在最小值附近来回震荡，甚至可能无法收敛
+	反向传播：从后向前，逐层求损失函数对每层神经元参数的偏导数，从而迭代更新所有参数
+	
+
+
+tensorflow数据类型:
+    tf.int32  tf.float32   tf.float64   tf.bool   tf.string
+
+
+创建一个张量：
+    tf.constant(张量内容,dtype=数据类型)
+
+
+将numpy的数据类型转换为tensor数据类型：
+    tf.convert_to_tensor(数据名,dtype=数据类型)
+    
+
+创建一个tensor：
+    tf.zeros(维度)    tf.ones(维度)     tf.fill(维度，指定值)
+    生成正太分布随机数：tf.random.normal(维度，mean=均值，stddev=标准差)
+    生成截断式正态分布随机数：tf.random.truncated_normal(同上)
+    生成均匀分布随机数：tf.random.uniform(维度，minval=最小值，maxval=最大值)
+    
+    
+tensorflow常用函数：
+    强制tensor转换为某一个数据类型：tf.cast(张量名，dtype=数据类型)
+    计算张量维度上的元素的最小值：tf.reduce_min(张量名)
+    计算张量维度上的元素的最大值：tf.reduce_max(张量名)
+    
+    理解axis：在一个二维张量或数组中，可以调整axis=0/1控制执行维度，axis=0表示纵向操作，axis=1表示横向操作，不指定axis默认对所有元素进行操作
+        计算张量沿指定维度的平均值：tf.reduce_mean(张量名，axis=？)
+        计算张量沿指定维度的和：tf.reduce_sum(张量名，axis=？)
+        
+    tf.Variable()可以将变量标记为“可训练”，被标记的变量将在反向传播中记录梯度信息。神经网络训练中常用该函数标记待训练参数。
+        如：w=tf.Variable(tf.random.normal([2,2],mean=0,stddev=1))
+        
+    对应元素的四则运算：（只有维度相同的张量才可以做四则运算）
+        实现两个张量的对应元素相加：tf.add(张量1，张量2)
+        实现两个张量的对应元素相减：tf.subtract(a,b)
+        实现两个张量的对应元素相乘：tf.multiply(a,b)
+        实现两个张量的对应元素相除：tf.divide(a,b)
+        
+    平方、次方与开方：tf.square(张量名)     tf.pow(张量名，n次方数)       tf.sqrt(张量名)
+    
+    矩阵乘法：tf.matmul(矩阵1，矩阵2)
+    
+    切分传入张量的第一维度，生成输入特征/标签的配对，构建数据集：
+        data = tf.data.Dataset.from_tensor_slices((输入特征，标签))
+        numpy和tensor格式都可以用该语句读入数据
+        
+    with结构记录计算过程：
+        用gradient求出张量的梯度：
+            with tf.GradientTape() as tape:
+                若干个计算过程
+            grad = tape.gradient(函数，对谁求导)
+            
+            
+     enumerate时python的内建函数，可以遍历每一个元素，组合为：索引 元素，常在for循环中使用：
+        如：for i,element in enumerate(seq):
+                .....
+                
+     独热编码（one-hot encoding）：在分类问题中，常用独热编码做标签，标记类别：1表示是，0表示非，tensorflow提供了tf.one_hot函数，将待转换数据转换为one-hot形式输出
+        tf.one_hot(待转换数据，depth=几分类)
+        
+        
+     softmax函数可以使n分类的n个输出值变为0-1之间的概率值，使其符合概率分布
+        如：y = tf.constant([1.01, 2.01, -0.66])
+            y_pro = tf.nn.softmax(y)
+            
+     assign_sub函数用于参数的自更新，在调用该函数之前，需要先用tf.Variable定义变量w可训练（可自更新）：w.assign_sub(w要自减的内容)
+        如：w = tf.Variable(4)              实际上左侧代码功能相当于：w=4
+            w.assign_sub(1)                                          w-=1
+            print(w)
+            
+     tf.argmax返回张量沿指定维度方向的最大值的索引：
+        tf.argmax(张量名，axis=操作轴)
+        
+        
+     tf.where():条件语句为真则返回A，否则返回B：
+        tf.where(tf.greater(a,b),a,b)---此处a,b分别是两个张量，若a>b，则会返回a对应位置的元素，否则返回b对应位置的元素
+        
+     
