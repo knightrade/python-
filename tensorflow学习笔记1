@@ -85,3 +85,62 @@ tensorflow常用函数：
         tf.where(tf.greater(a,b),a,b)---此处a,b分别是两个张量，若a>b，则会返回a对应位置的元素，否则返回b对应位置的元素
         
      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+model = tf.keras.models . Sequential ([网络结构]) #描述 各层网络
+网络结构举例:
+	拉直层: tf.keras.layers.Flatten( )
+	全连接层: tf.keras.layers.Dense(神经 元个数，activation=“激活函数“，kernel regularizer=哪种正则化)
+	activation (字符串给出)可选: relu、softmax、 sigmoid 、tanh，kernel regularizer可 选: tf.keras.regularizers.1()、 tf.keras.regularizers.l2()
+	卷积层: tf.keras.layers.Conv2D(filters =卷积核个数，kernel size =卷积核尺寸，strides=卷积步长，padding = " valid" or "same")
+	LSTM层: tf.keras.layers.Ls TM()
+
+
+
+
+
+model.compile(optimizer =优化器，loss =损失函数，metrics = [“准确率”] )
+Optimizer可选:
+	'sgd' or tf.keras optimizers.SGD (r=学习率momentum=动量参数)
+	'adagrad' or tf.keras. optimizers.Adagrad (r=学习率)
+	'adadelta' or tf.keras optimizers .Adadelta (Ir=学习率)
+	'adam' or tf.keras.optimizers .Adam (Ir=学习率，beta_ 1=0.9, beta_ 2=0.999)
+loss可选:
+	'mse' or tf.keras.losses .MeanSquaredError()
+	'sparse_ categorical crossentropy or tf. keras Jlosses SparseCategoricalCrossentropy(from logits= False)
+Metrics可选:
+	'accuracy' : y_ 和y都是数值.如y_ =[1] y=[1]
+	'categorical accuracy : y. 和y都是独热码(概率分布)，如y_ =[0,1,0] y=[0.256,0.695,0.048]
+	'sparse_ categorical accuracy : y是数值，y是独热码(概率分布)，如y =[1],y=[Q 256.0.695.0.048]
+
+
+
+
+
+model.fit
+	(训练集的输入特征，训练集的标签，
+	batch_ size= ，epochs=
+	validation_ data=(测试集的输入特征，测试集的标签)，
+	validation_ split=从 训练集划分多少比例给测试集，
+	validation_ freq= 多少次epoch测试一次)
+
+
+
+
+
+
+
+
