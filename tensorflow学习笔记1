@@ -90,6 +90,9 @@ tensorflow常用函数：
 
 
 
+     
+
+
 
 
 
@@ -123,8 +126,8 @@ loss可选:
 	'sparse_ categorical crossentropy or tf. keras Jlosses SparseCategoricalCrossentropy(from logits= False)
 Metrics可选:
 	'accuracy' : y_ 和y都是数值.如y_ =[1] y=[1]
-	'categorical accuracy : y. 和y都是独热码(概率分布)，如y_ =[0,1,0] y=[0.256,0.695,0.048]
-	'sparse_ categorical accuracy : y是数值，y是独热码(概率分布)，如y =[1],y=[Q 256.0.695.0.048]
+	'categorical accuracy : y_和y都是独热码(概率分布)，如y_ =[0,1,0] y=[0.256,0.695,0.048]
+	'sparse_ categorical accuracy : y_是数值，y是独热码(概率分布)，如y =[1],y=[Q 256.0.695.0.048]
 
 
 
@@ -136,6 +139,65 @@ model.fit
 	validation_ data=(测试集的输入特征，测试集的标签)，
 	validation_ split=从 训练集划分多少比例给测试集，
 	validation_ freq= 多少次epoch测试一次)
+	
+	
+model.summary()：打印出网络结构与参数统计
+
+
+
+keras数据可视化提取训练、测试的loss和准确率
+	acc = history.history['sparse_categorical_accuracy']
+	val_acc = history.history['val_sparse_categorical_accuracy']
+	loss = history.history['loss']
+	val_loss = history.history['val_loss']
+
+	
+	
+	
+	
+	
+	
+	
+	
+断点续训：
+     	读取保存模型
+    读取模型:
+	load_ weights(路径 文件名)
+	checkpoint save path ="./checkpoint/文件名.ckpt"
+	if os.path.exists (checkpoint_save_path + '.index' ) :
+		print ('-------------load the model -----------------' )
+		model load weights (checkpoint_ save_ path)
+    保存模型:
+	tf.keras.callbacks.ModelCheckpoint(flepath=路径文件名，save_ weights_only= True/False,save_ best_only=True/False)
+	history = model.fit ( callbacks=[cp_callback] )
+	
+	
+	
+	
+	
+	
+提取可训练参数：
+	model.trainable_ variables 返回模型中可训练的参数
+	
+	设置print输出格式
+	np.set printoptions(threshold=超过 多少省略显示)
+	np.set_ printoptions(threshold=np.inf) # np . inf表示无限大
+
+	print (model. trainable_ variables)
+	file = open('./weights.txt', 'w')
+	for v in model. trainable_ variables:
+		file. write(str(v. name) +'\n' )
+		file . write(str(v. shape) + '\n')
+		file . write(str(v .numpy()) + \n' )
+	file. close()
+
+	
+	
+	
+	
+	
+	
+	
 
 
 
